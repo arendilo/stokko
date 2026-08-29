@@ -327,3 +327,53 @@ STOKKO dikembangkan sebagai proyek akademik untuk menerapkan konsep:
 # 👨‍💻 Authors
 
 Developed by STOKKO Team.
+
+---
+
+# PlanetScale (MySQL) Setup (Recommended)
+
+This project uses MySQL. For serverless deployments (e.g., Vercel) we recommend PlanetScale because it supports serverless-friendly connections and a Data Proxy.
+
+Quick steps:
+
+1. Install PlanetScale CLI and authenticate:
+
+```bash
+brew install planetscale/tap/pscale
+pscale auth login
+```
+
+2. Create a database (UI or CLI) and a branch:
+
+```bash
+pscale branch create stokko main
+```
+
+3. Create a password for imports:
+
+```bash
+pscale password create stokko import-user
+# note the username and password returned
+```
+
+4. Open a local tunnel and import the schema:
+
+```bash
+# in one terminal (keep running):
+pscale connect stokko main --port 3306
+
+# in another terminal:
+mysql -u <USERNAME> -p -h 127.0.0.1 -P 3306 < backend/db/stokko_db.sql
+```
+
+5. Enable Data Proxy in the PlanetScale UI and use the provided connection string for serverless environments.
+
+6. Environment variables (set in Vercel or your host):
+
+- `DB_HOST`, `DB_PORT` (3306), `DB_NAME`
+- `DB_USER`, `DB_PASS`
+- `DB_SSL=true`
+- `JWT_SECRET`, `SESSION_SECRET`, `CLOUDINARY_*`, `CLIENT_URL`
+
+See `PLANETSCALE_SETUP.md` for full commands and details.
+
