@@ -377,3 +377,4 @@ mysql -u <USERNAME> -p -h 127.0.0.1 -P 3306 < backend/db/stokko_db.sql
 
 See `PLANETSCALE_SETUP.md` for full commands and details.
 
+# genshinimport
